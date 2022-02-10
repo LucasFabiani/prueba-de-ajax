@@ -3,7 +3,38 @@
 
 <head>
     <script>
-        document.write("Hola");
+        function getWeather(location, value, callback) {
+            var url = "https://api.openweathermap.org/data/2.5/weather";
+            $.ajax({
+                dataType: "jsonp",
+                url: url,
+                jsonCallback: 'jsonp',
+                data: {
+                    appid: "3556435b983a95646ad9cab4a5ee0943",
+                    units: value,
+                    lat: location.latitude,
+                    lon: location.longitude
+                },
+                cache: false,
+                success: function(data) {
+                    callback(data);
+                }
+            });
+        }
+
+        function LocalWeather() {
+            $.ajax({
+                url: '//freegeoip.net/json/',
+                type: 'GET',
+                dataType: 'jsonp',
+                success: function(location) {
+                    getWeather(location, "metric", function(data) {
+                        console.log(location);
+                        console.log(data);
+                    })
+                }
+            })
+        }
     </script>
 </head>
 
